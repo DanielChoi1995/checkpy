@@ -666,7 +666,4 @@ class RestCheckpy(object):
         
         else:
             raise ValueError('Invalid interval')
-        
-if __name__ == '__main__':
-    c = RestCheckpy('SCH1324002', 'S0!30AD5N7RwAWRAvl5IZNvSGJVobvs1')
-    s = c.get_stock_futures_kline_data_intra_1m('111VA000', '20240913')
+
