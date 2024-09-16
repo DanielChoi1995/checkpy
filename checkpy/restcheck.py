@@ -285,7 +285,7 @@ class RestCheckpy(object):
         return self.__fetch_data(end_point=end_point, payload=payload)  
     
     def get_k200_futures_tick_info(self, ticker: str, date: str):
-        end_point = 'futures/m005/tick_date'
+        end_point = '/futures/m005/tick_date'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': ticker, 'edate': date}
 
         return self.__fetch_data(end_point=end_point, payload=payload)

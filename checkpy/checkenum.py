@@ -1,4 +1,4 @@
-from enum import StrEnum
+from enum import StrEnum, IntEnum
 
 class MarketType(StrEnum):
     KOSPI_STOCK = '00100'
@@ -15,3 +15,8 @@ class MarketType(StrEnum):
 class SubType(StrEnum):
     TRANSACTION = '2'
     ORDERBOOK = '5'
+
+
+class SubscribeStatus(IntEnum):
+    SUBSCRIBED = 0
+    UNSUBSCRIBED = 1
