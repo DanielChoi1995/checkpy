@@ -29,7 +29,7 @@ class StreamCheckpy(object):
 
         return json.dumps(payload)
     
-    def generate_subscribe_msgs(self):
+    def __generate_subscribe_msgs(self):
         return '|'.join([self.__generate_subscribe_msg(code) for code in self.__subscribes.keys()])
 
     @staticmethod
@@ -40,17 +40,17 @@ class StreamCheckpy(object):
         return {self.__translate.get(key): value for key, value in msg.items() if key in self.__subscribes.keys()}
 
     def __process_msg(self, msg, callback):
-        callback(self.__convert_keys(msg))
+        callback(self.__convert_keys(json.loads(msg)))
 
     async def __start_stream(self, callback):
         while True:
             try:
                 async with websockets.connect(self.__wss_uri) as check_wss:
-                    await check_wss.send(self.generate_subscribe_msgs())
+                    await check_wss.send(self.__generate_subscribe_msgs())
                     self.__subscribes = {key: SubscribeStatus.SUBSCRIBED for key in self.__subscribes.keys()}
                 
-                while check_wss.open:
-                    self.__process_msg(await check_wss.recv(), callback=callback)
+                    while check_wss.open:
+                        self.__process_msg(await check_wss.recv(), callback=callback)
             
             except (ConnectionClosedError, ConnectionClosedOK) as WebsocketError:
                 logging.error(f'Wss error occurs reason: {WebsocketError}')
