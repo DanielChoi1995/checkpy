@@ -254,6 +254,76 @@ class RestCheckpy(object):
         else:
             raise ValueError('Invalid interval')
     
+    def get_sector_index_infos(self):
+        end_point = '/stock/m167/code_info'
+        payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key}
+
+        return self.__fetch_data(end_point=end_point, payload=payload)
+    
+    def get_sector_index_daily_info(self, index_code: str, start: str, end: str):
+        end_point = '/stock/m167/hist_info'
+        payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code, 'sdate': start, 'edate': end}
+
+        return self.__fetch_data(end_point=end_point, payload=payload)
+
+    def get_sector_index_tick_info(self, index_code: str):
+        end_point = '/stock/m167/tick_info'
+        payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code}
+
+        return self.__fetch_data(end_point=end_point, payload=payload)
+
+    def get_sector_index_kline_data_today_10s(self, index_code: str):
+        end_point = '/stock/m167/intra_info'
+        payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code}
+
+        return self.__fetch_data(end_point=end_point, payload=payload)
+
+    def get_sector_index_kline_data(self, index_code: str, interval: str, start: str, end: str):
+        end_point = '/stock/m167/term_hist_info'
+
+        if interval in RestCheckpy.KLINE_INTERVAL.keys():
+            payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code, 'term': RestCheckpy.KLINE_INTERVAL.get(interval), 'sdate': start, 'edate': end}
+
+            return self.__fetch_data(end_point=end_point, payload=payload)
+        
+        else:
+            raise ValueError('Invalid interval')
+    
+    def get_other_index_infos(self):
+        end_point = '/stock/m168/code_info'
+        payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key}
+
+        return self.__fetch_data(end_point=end_point, payload=payload)
+    
+    def get_other_index_daily_info(self, index_code: str, start: str, end: str):
+        end_point = '/stock/m168/hist_info'
+        payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code, 'sdate': start, 'edate': end}
+
+        return self.__fetch_data(end_point=end_point, payload=payload)
+
+    def get_other_index_tick_info(self, index_code: str):
+        end_point = '/stock/m168/tick_info'
+        payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code}
+
+        return self.__fetch_data(end_point=end_point, payload=payload)
+
+    def get_other_index_kline_data_today_10s(self, index_code: str):
+        end_point = '/stock/m168/intra_info'
+        payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code}
+
+        return self.__fetch_data(end_point=end_point, payload=payload)
+
+    def get_other_index_kline_data(self, index_code: str, interval: str, start: str, end: str):
+        end_point = '/stock/m168/term_hist_info'
+
+        if interval in RestCheckpy.KLINE_INTERVAL.keys():
+            payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code, 'term': RestCheckpy.KLINE_INTERVAL.get(interval), 'sdate': start, 'edate': end}
+
+            return self.__fetch_data(end_point=end_point, payload=payload)
+        
+        else:
+            raise ValueError('Invalid interval')
+    
     def get_k200_futures_code_info(self):
         end_point = '/future/m005/code_info'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key}

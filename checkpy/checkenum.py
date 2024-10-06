@@ -10,6 +10,7 @@ class MarketType(StrEnum):
     KQ150_FUTURES = '06700'
     STOCK_FUTURES = '09100'
     K200_MINI_F = '10300'
+    K200_NIGHT_F_DELAYED = '20700'
 
 
 class SubType(StrEnum):

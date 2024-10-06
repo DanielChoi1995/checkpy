@@ -3,6 +3,7 @@ import asyncio
 import logging
 import sys
 import json
+from json.decoder import JSONDecodeError
 
 from .checkenum import *
 from websockets.exceptions import ConnectionClosedError, ConnectionClosedOK
@@ -37,10 +38,17 @@ class StreamCheckpy(object):
         return f'{market_type}{sub_type}{ticker}'
     
     def __convert_keys(self, msg):
-        return {self.__translate.get(key): value for key, value in msg.items() if key in self.__subscribes.keys()}
+        return {self.__translate.get(key): value for key, value in msg.items() if key in self.__translate.keys()}
 
     def __process_msg(self, msg, callback):
-        callback(self.__convert_keys(json.loads(msg)))
+        try:
+            parsed_msg = json.loads(msg)
+
+            if 'data' in parsed_msg.keys():
+                callback(self.__convert_keys(parsed_msg.get('data')))
+        
+        except JSONDecodeError:
+            pass
 
     async def __start_stream(self, callback):
         while True:
