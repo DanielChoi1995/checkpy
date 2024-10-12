@@ -448,7 +448,7 @@ class RestCheckpy(object):
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.INTRA_DAY)
    
-    def get_kq150_futures_kline_data_intra_1m(self, index_code: str, date: str):
+    def get_kq150_futures_kline_data_intra_10s(self, index_code: str, date: str):
         end_point = '/future/m067/intra_date'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code, 'edate': date}
 
@@ -507,7 +507,7 @@ class RestCheckpy(object):
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.INTRA_DAY)
    
-    def get_stock_futures_kline_data_intra_1m(self, index_code: str, date: str):
+    def get_stock_futures_kline_data_intra_10s(self, index_code: str, date: str):
         end_point = '/future/m091/intra_date'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code, 'edate': date}
 
@@ -566,7 +566,7 @@ class RestCheckpy(object):
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.INTRA_DAY)
    
-    def get_k200_mini_futures_kline_data_intra_1m(self, index_code: str, date: str):
+    def get_k200_mini_futures_kline_data_intra_10s(self, index_code: str, date: str):
         end_point = '/future/m103/intra_date'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code, 'edate': date}
 
@@ -625,7 +625,7 @@ class RestCheckpy(object):
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.INTRA_DAY)
    
-    def get_k200_option_kline_data_intra_1m(self, index_code: str, date: str):
+    def get_k200_option_kline_data_intra_10s(self, index_code: str, date: str):
         end_point = '/future/m006/intra_date'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code, 'edate': date}
 
@@ -684,7 +684,7 @@ class RestCheckpy(object):
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.INTRA_DAY)
    
-    def get_k200_mini_option_kline_data_intra_1m(self, index_code: str, date: str):
+    def get_k200_mini_option_kline_data_intra_10s(self, index_code: str, date: str):
         end_point = '/future/m104/intra_date'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code, 'edate': date}
 
@@ -743,7 +743,7 @@ class RestCheckpy(object):
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.INTRA_DAY)
    
-    def get_k200_weekly_option_kline_data_intra_1m(self, index_code: str, date: str):
+    def get_k200_weekly_option_kline_data_intra_10s(self, index_code: str, date: str):
         end_point = '/future/m182/intra_date'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code, 'edate': date}
 
