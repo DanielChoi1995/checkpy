@@ -130,6 +130,12 @@ class RestCheckpy(object):
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.NOT_TS)
 
+    def get_kospi_index_basic_info(self, index_code: str):
+        end_point = '/stock/m002/basic_info'
+        payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code}
+
+        return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.NOT_TS)
+
     def get_kospi_index_daily_info(self, index_code: str, start: str, end: str):
         end_point = '/stock/m002/hist_info'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code, 'sdate': start, 'edate': end}
@@ -241,6 +247,12 @@ class RestCheckpy(object):
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key}
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.NOT_TS)
+    
+    def get_kosdaq_index_basic_info(self, index_code):
+        end_point = '/stock/m004/basic_info'
+        payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code}
+
+        return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.NOT_TS)
 
     def get_kosdaq_index_daily_info(self, index_code: str, start: str, end: str):
         end_point = '/stock/m004/hist_info'
@@ -283,6 +295,12 @@ class RestCheckpy(object):
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.NOT_TS)
     
+    def get_sector_index_basic_info(self, index_code: str):
+        end_point = '/stock/m167/basic_info'
+        payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code}
+
+        return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.NOT_TS)
+    
     def get_sector_index_daily_info(self, index_code: str, start: str, end: str):
         end_point = '/stock/m167/hist_info'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code, 'sdate': start, 'edate': end}
@@ -315,6 +333,12 @@ class RestCheckpy(object):
     def get_other_index_infos(self):
         end_point = '/stock/m168/code_info'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key}
+
+        return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.NOT_TS)
+    
+    def get_other_index_basic_info(self, index_code):
+        end_point = '/stock/m168/basic_info'
+        payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'jcode': index_code}
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.NOT_TS)
     
