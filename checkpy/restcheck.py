@@ -29,61 +29,69 @@ class RestCheckpy(object):
         resp = requests.post(f'{self.__rest_base_uri}{end_point}', data=payload).json()
 
         if resp.get('success') is True:
-            df = pd.DataFrame(resp.get('results'))
-            df.columns = self.__convert_columns(df.columns)
+            results = resp.get('results')
 
-            if is_time_series == TimeSeriesType.INTRA_DAY:
-                df['TIME'] = pd.to_datetime(df['INTRA_DATE'].astype(str) + df['INTRA_TIME'].astype(str).str.zfill(8), format='%Y%m%d%H%M%S%f')
-                df.set_index(df['TIME'], inplace=True, drop=True)
-                df.sort_index(inplace=True)
-                df.drop(columns=['TIME', 'INTRA_DATE', 'INTRA_TIME'], errors='ignore', inplace=True)
+            if results != []:
+                df = pd.DataFrame(results)
+                df.columns = self.__convert_columns(df.columns)
 
-            
-            elif is_time_series == TimeSeriesType.OTHER:
-                df['TIME'] = pd.to_datetime(df['DATE'].astype(str), format='%Y%m%d')
-                df.set_index(df['TIME'], inplace=True, drop=True)
-                df.sort_index(inplace=True)
-                df.drop(columns=['TIME', 'DATE'], errors='ignore', inplace=True)
+                if is_time_series == TimeSeriesType.INTRA_DAY:
+                    df['TIME'] = pd.to_datetime(df['INTRA_DATE'].astype(str) + df['INTRA_TIME'].astype(str).str.zfill(8), format='%Y%m%d%H%M%S%f')
+                    df.set_index(df['TIME'], inplace=True, drop=True)
+                    df.sort_index(inplace=True)
+                    df.drop(columns=['TIME', 'INTRA_DATE', 'INTRA_TIME'], errors='ignore', inplace=True)
+
+                
+                elif is_time_series == TimeSeriesType.OTHER:
+                    df['TIME'] = pd.to_datetime(df['DATE'].astype(str), format='%Y%m%d')
+                    df.set_index(df['TIME'], inplace=True, drop=True)
+                    df.sort_index(inplace=True)
+                    df.drop(columns=['TIME', 'DATE'], errors='ignore', inplace=True)
+
+                else:
+                    pass
+
+                return df.loc[:, df.columns.notna()].astype('float', errors='ignore')
 
             else:
-                pass
-
-            return df.loc[:, df.columns.notna()].astype('float', errors='ignore')
+                return
 
         else:
             logging.debug(f"Fetch data failed. msg: {resp.get('message')}")
+
+            return
     
-    def get_kospi_stocks_info(self):
+    def get_kospi_stock_info(self):
         end_point = '/stock/m001/code_info'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key}
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.NOT_TS)
 
-    def get_kospi_stocks_basic_infos(self, tickers: list):
+    def get_kospi_stock_basic_infos(self, tickers: list):
         end_point = '/stock/m001/basic_info_all_port'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'codelist': ','.join(tickers)}
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.NOT_TS)
     
-    def get_kospi_investor_infos(self, tickers: list):
+    def get_kospi_stock_investor_infos(self, tickers: list):
         end_point = '/stock/m001/invest_info_port'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'codelist': ','.join(tickers)}
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.NOT_TS)
 
-    def get_kospi_orderbook_infos(self, tickers: list):
+    def get_kospi_stock_orderbook_infos(self, tickers: list):
         end_point = '/stock/m001/hoga_info_port'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'codelist': ','.join(tickers)}
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.INTRA_DAY)
     
-    def get_kospi_bbo_infos(self, tickers: list):
+    def get_kospi_stock_bbo_infos(self, tickers: list):
         end_point = '/stock/m001/hoga_info_port_top'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'codelist': ','.join(tickers)}
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.INTRA_DAY)
     
-    def get_kospi_index_rank_infos(self, index_code: str, criteria_code: str):
+    def get_kospi_stock_rank_infos(self, index_code: str, criteria_code: str):
         end_point = '/stock/m001/rank'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'up_code': index_code, 'criteria_code': criteria_code}
 
@@ -171,37 +179,37 @@ class RestCheckpy(object):
         else:
             raise ValueError('Invalid interval')
 
-    def get_kosdaq_stocks_info(self):
+    def get_kosdaq_stock_info(self):
         end_point = '/stock/m003/code_info'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key}
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.NOT_TS)
 
-    def get_kosdaq_stocks_basic_infos(self, tickers: list):
+    def get_kosdaq_stock_basic_infos(self, tickers: list):
         end_point = '/stock/m003/basic_info_all_port'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'codelist': ','.join(tickers)}
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.NOT_TS)
     
-    def get_kosdaq_investor_infos(self, tickers: list):
+    def get_kosdaq_stock_investor_infos(self, tickers: list):
         end_point = '/stock/m003/invest_info_port'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'codelist': ','.join(tickers)}
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.NOT_TS)
 
-    def get_kosdaq_orderbook_infos(self, tickers: list):
+    def get_kosdaq_stock_orderbook_infos(self, tickers: list):
         end_point = '/stock/m003/hoga_info_port'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'codelist': ','.join(tickers)}
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.INTRA_DAY)
     
-    def get_kosdaq_bbo_infos(self, tickers: list):
+    def get_kosdaq_stock_bbo_infos(self, tickers: list):
         end_point = '/stock/m003/hoga_info_port_top'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'codelist': ','.join(tickers)}
 
         return self.__fetch_data(end_point=end_point, payload=payload, is_time_series=TimeSeriesType.INTRA_DAY)
     
-    def get_kosdaq_index_rank_infos(self, index_code: str, criteria_code: str):
+    def get_kosdaq_stock_rank_infos(self, index_code: str, criteria_code: str):
         end_point = '/stock/m003/rank'
         payload = {'cust_id': self.__user_id, 'auth_key': self.__user_key, 'up_code': index_code, 'criteria_code': criteria_code}
 
