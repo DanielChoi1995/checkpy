@@ -8,6 +8,10 @@ __pycache__/
 #J Jupyter Notebook
 *.ipynb
 
+# csv
+*.csv
+*.json
+
 # Distribution / packaging
 .Python
 env/
