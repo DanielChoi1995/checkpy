@@ -36,14 +36,9 @@ class RestCheckpy(object):
                 df.columns = self.__convert_columns(df.columns)
 
                 if is_time_series == TimeSeriesType.INTRA_DAY:
-                    try:
-                        df['TIME'] = pd.to_datetime(df['INTRA_DATE'].astype(str) + df['INTRA_TIME'].astype(str).str.zfill(8), format='%Y%m%d%H%M%S%f')
-                        df.set_index(df['TIME'], inplace=True, drop=True)
-                        df.sort_index(inplace=True)
-                        
-                    except KeyError:
-                        pass
-
+                    df['TIME'] = pd.to_datetime(df['INTRA_DATE'].astype(str) + df['INTRA_TIME'].astype(str).str.zfill(8), format='%Y%m%d%H%M%S%f')
+                    df.set_index(df['TIME'], inplace=True, drop=True)
+                    df.sort_index(inplace=True)
                     df.drop(columns=['TIME', 'INTRA_DATE', 'INTRA_TIME'], errors='ignore', inplace=True)
 
                 
